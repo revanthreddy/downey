@@ -27,7 +27,7 @@ and open the template in the editor.
                 // maybe replace that by window... or something
                 var userOpts	= {
                         range		: 800,
-                        duration	: 2500,
+                        duration	: 10000,
                         delay		: 200,
                         easing		: 'Elastic.EaseInOut'
                 };
@@ -73,9 +73,9 @@ and open the template in the editor.
                                 .onUpdate(update);
 
                         // after tweenHead do tweenBack
-                        tweenHead.chain(tweenBack);
+                        //tweenHead.chain(tweenBack);
                         // after tweenBack do tweenHead, so it is cycling
-                        tweenBack.chain(tweenHead);
+                        //tweenBack.chain(tweenHead);
 
                         // start the first
                         tweenHead.start();
