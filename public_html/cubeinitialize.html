@@ -18,10 +18,12 @@ and open the template in the editor.
                 var container;
                 var camera, scene, renderer, stats;
                 var cube;
+                var tweenHead , tweenBack;
+                
                     // maybe replace that by window... or something
                 var userOpts	= {
                         range		: 800,
-                        duration	: 1000,
+                        duration	: 500,
                         delay		: 200,
                         easing		: 'Elastic.EaseInOut'
                 };
@@ -34,9 +36,15 @@ and open the template in the editor.
                 
                 function setupTween()
                 {
-                        // 
+                        
+                        var rotate = function(){
+                            cube.rotation.x += 0.05;
+                        }
+                        
                         var update	= function(){
-                                cube.position.x += 0.2;
+                            //console.log("x : "+cube.position.x);
+                                cube.position.x += 0.05;
+                                x= cube.position.x;
                         }
                         var current	= { x: -userOpts.range };
 
@@ -46,42 +54,27 @@ and open the template in the editor.
                         // convert the string from dat-gui into tween.js functions 
                         var easing	= TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
                         // build the tween to go ahead
-                        var tweenHead	= new TWEEN.Tween({x : 0.1})
-                                .to({x: 0.3}, userOpts.duration)
+                        tweenHead	= new TWEEN.Tween({x : 0})
+                                .to({x: 1}, userOpts.duration)
                                 .delay(userOpts.delay)
                                 .easing(easing)
                                 .onUpdate(update);
                         // build the tween to go backward
-//                        var tweenBack	= new TWEEN.Tween(current)
-//                                .to({x: -userOpts.range}, userOpts.duration)
-//                                .delay(userOpts.delay)
-//                                .easing(easing)
-//                                .onUpdate(update);
+                        tweenBack	= new TWEEN.Tween({x : 0})
+                                .to({x : 0.05}, userOpts.duration)
+                                .delay(userOpts.delay)
+                                .easing(easing)
+                                .onUpdate(rotate);
 
                         // after tweenHead do tweenBack
-                        //tweenHead.chain(tweenBack);
+                        tweenHead.chain(tweenBack);
                         // after tweenBack do tweenHead, so it is cycling
                         //tweenBack.chain(tweenHead);
 
                         // start the first
                         tweenHead.start();
                 }
-                function buildGui(options, callback)
-                {
-                        // collect all available easing in TWEEN library
-                        var easings	= {};
-                        Object.keys(TWEEN.Easing).forEach(function(family){
-                                Object.keys(TWEEN.Easing[family]).forEach(function(direction){
-                                        var name	= family+'.'+direction;
-                                        easings[name]	= name;
-                                });
-                        });
-                        // the callback notified on UI change
-                        var change	= function(){
-                                callback(options)
-                        }
-                       
-                }
+                
                 
                 function init(){
 			scene = new THREE.Scene();
@@ -91,12 +84,7 @@ and open the template in the editor.
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			document.body.appendChild(renderer.domElement);
 
-                         // build the GUI 
-                        buildGui(userOpts, function(){
-                                console.log("userOpts", userOpts)
-                                setupTween();
-                        });
-
+                         
                         // initial setup of the tweens
                         setupTween();
 //			var geometry = new THREE.CubeGeometry(2,2,1);
@@ -111,13 +99,14 @@ and open the template in the editor.
 			cube = new THREE.Mesh(geometry, material);
                         cube.geometry.dynamic =true;
                         
-                        cube.position.x = 0.8;
+                        //cube.position.x = 0.8;
 			scene.add(cube);
                         
-			camera.position.z = 8;
+			camera.position.z = 5;
                 }
                         // ## Animate and Display the Scene
                 function animate() {
+                    
                         // render the 3D scene
                         render();
                         // relaunch the 'timer' 
