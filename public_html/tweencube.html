@@ -11,7 +11,6 @@ and open the template in the editor.
 	<body>
                
             <script src="js/Three.js"></script>
-            <!--<script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>-->
                 <script src="js/Tween.js"></script>
 		<script>
                     // This is the annotated source for this [blog post](/blog/2011/08/17/tweenjs-for-smooth-animation/).
@@ -126,8 +125,16 @@ and open the template in the editor.
                         setupTween();
 
                         // create the Cube
-                        cube	= new THREE.Mesh( new THREE.SphereGeometry( 200, 48, 32 ), new THREE.MeshNormalMaterial() );
-                        cube.position.x = -userOpts.range;
+                        var geometry = new THREE.CubeGeometry( 2, 2, 1 );
+                        for ( var i = 0; i < geometry.faces.length; i ++ ) {
+                            geometry.faces[ i ].color.setHex( Math.random() * 0xffffff );
+                        }
+
+                        var material = new THREE.MeshBasicMaterial( { color: 0xffffff, vertexColors: THREE.FaceColors } );
+                        cube = new THREE.Mesh(geometry, material);
+                        cube.geometry.dynamic =true;
+                        //cube	= new THREE.Mesh( new THREE.SphereGeometry( 200, 48, 32 ), new THREE.MeshNormalMaterial() );
+                        //cube.position.x = -userOpts.range;
 
                         // add the object to the scene
                         scene.addObject( cube );

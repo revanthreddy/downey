@@ -16,7 +16,7 @@
 		</div>
 
             <script src="js/tween.min.js"></script>
-            <script src="js/Three.js"></script>
+            
 		<script>
 			var position;
 			var target;
@@ -30,18 +30,18 @@
 				position = {x: 100, y: 100, rotation: 0};
 				target = document.getElementById('target');
 				tween = new TWEEN.Tween(position)
-					.to({x: 700, y: 200, rotation: 359}, 2000)
+					.to({x: 1000, y: 500, rotation: 359}, 5000)
 					.delay(1000)
 					.easing(TWEEN.Easing.Elastic.InOut)
 					.onUpdate(update);
 
-				tweenBack = new TWEEN.Tween(position)
-					.to({x: 100, y: 100, rotation: 0}, 3000)
-					.easing(TWEEN.Easing.Elastic.InOut)
-					.onUpdate(update);
-
-				tween.chain(tweenBack);
-				tweenBack.chain(tween);
+//				tweenBack = new TWEEN.Tween(position)
+//					.to({x: 100, y: 100, rotation: 0}, 3000)
+//					.easing(TWEEN.Easing.Elastic.InOut)
+//					.onUpdate(update);
+//
+//				tween.chain(tweenBack);
+//				tweenBack.chain(tween);
 
 				tween.start();
 
