@@ -11,18 +11,32 @@ and open the template in the editor.
 	<body>
                 <!--<button onclick="toggleRotation();">Start/Stop</button>-->
                 <script src="/socket.io/socket.io.js"></script>
-                <script>
+                
 
-                  var socket = io.connect('http://localhost:3000/');socket.on('connect', function (){
-                              console.info('successfully established a working and authorized connection');
-                    });
+                  
 
-                </script>
+                
                 
 		<script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
 		<script src="/js/Tween.js"></script>
                 
 		<script>
+                var socket = io.connect('http://'+window.location.hostname+':3000/');socket.on('connect', function (){
+                              console.info('successfully established a working and authorized connection');
+                });
+                
+                socket.on('rotate' , function(data){
+                        tweenBack.start();
+                });
+                
+                socket.on('move' , function(data){
+                        tweenHead.start();
+                });
+                
+                socket.on('scale' , function(data){
+                            
+                });
+                
                 var startTime	= Date.now();
                 var container;
                 var camera, scene, renderer, stats;
@@ -50,7 +64,7 @@ and open the template in the editor.
                             cube.rotation.x += 0.05;
                         }
                         
-                        var update	= function(){
+                        var move	= function(){
                             //console.log("x : "+cube.position.x);
                                 cube.position.x += 0.05;
                                 x= cube.position.x;
@@ -67,7 +81,7 @@ and open the template in the editor.
                                 .to({x: 1}, userOpts.duration)
                                 .delay(userOpts.delay)
                                 .easing(easing)
-                                .onUpdate(update);
+                                .onUpdate(move);
                         // build the tween to go backward
                         tweenBack	= new TWEEN.Tween({x : 0})
                                 .to({x : 0.05}, userOpts.duration)
@@ -76,12 +90,12 @@ and open the template in the editor.
                                 .onUpdate(rotate);
 
                         // after tweenHead do tweenBack
-                        tweenHead.chain(tweenBack);
+                        //tweenHead.chain(tweenBack);
                         // after tweenBack do tweenHead, so it is cycling
                         //tweenBack.chain(tweenHead);
 
                         // start the first
-                        tweenHead.start();
+                        //tweenHead.start();
                 }
                 
                 

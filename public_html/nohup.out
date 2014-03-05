@@ -1,0 +1,53 @@
+info: socket.io started
+connect.multipart() will be removed in connect 3.0
+visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives
+connect.limit() will be removed in connect 3.0
+debug: served static content /socket.io.js
+debug: client authorized
+info: handshake authorized XjvoGzXsJ5Ir5T3ZMvxG
+debug: setting request GET /socket.io/1/websocket/XjvoGzXsJ5Ir5T3ZMvxG
+debug: set heartbeat interval for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: client authorized for 
+debug: websocket writing 1::
+initialising socketio ..
+debug: websocket writing 5:::{"name":"rotate","args":[true]}
+debug: websocket writing 5:::{"name":"rotate","args":[true]}
+debug: websocket writing 5:::{"name":"rotate","args":[true]}
+debug: emitting heartbeat for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: websocket writing 2::
+debug: set heartbeat timeout for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: set heartbeat interval for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: emitting heartbeat for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: websocket writing 2::
+debug: set heartbeat timeout for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client XjvoGzXsJ5Ir5T3ZMvxG
+debug: set heartbeat interval for client XjvoGzXsJ5Ir5T3ZMvxG
+info: socket.io started
+connect.multipart() will be removed in connect 3.0
+visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives
+connect.limit() will be removed in connect 3.0
+debug: served static content /socket.io.js
+debug: client authorized
+info: handshake authorized 5TShj6yBw36gXzcvNoBr
+debug: setting request GET /socket.io/1/websocket/5TShj6yBw36gXzcvNoBr
+debug: set heartbeat interval for client 5TShj6yBw36gXzcvNoBr
+debug: client authorized for 
+debug: websocket writing 1::
+initialising socketio ..
+debug: websocket writing 5:::{"name":"rotate","args":[true]}
+debug: websocket writing 5:::{"name":"move","args":[true]}
+debug: emitting heartbeat for client 5TShj6yBw36gXzcvNoBr
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 5TShj6yBw36gXzcvNoBr
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 5TShj6yBw36gXzcvNoBr
+debug: set heartbeat interval for client 5TShj6yBw36gXzcvNoBr
+debug: emitting heartbeat for client 5TShj6yBw36gXzcvNoBr
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 5TShj6yBw36gXzcvNoBr
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 5TShj6yBw36gXzcvNoBr
+debug: set heartbeat interval for client 5TShj6yBw36gXzcvNoBr
