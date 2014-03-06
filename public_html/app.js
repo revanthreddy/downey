@@ -32,13 +32,15 @@ app.get('/', function(req, res) {
 
 app.get('/rotate', function(req, res) {
     io.sockets.emit("rotate", true);
-    
+    res.send("rotated");
 });
 
-app.get('/move' , function(){
+app.get('/move' , function(req,res){
     io.sockets.emit("move", true);
+    res.send("move");
 });
 
-app.get('/scale' , function(){
+app.get('/scale' , function(req,res){
     io.sockets.emit("scale", true);
+    res.send("scale");
 });
