@@ -44,3 +44,10 @@ app.get('/scale' , function(req,res){
     io.sockets.emit("scale", true);
     res.send("scale");
 });
+
+app.get('/negativescale' , function(req,res){
+    io.sockets.emit("scale", true);
+    res.send("scale");
+});
+
+
