@@ -35,17 +35,17 @@ app.get('/command', function(req, res) {
 
 app.post('/left', function(req, res) {
     currentCommand = 1;
-    res.sendfile(__dirname + '/index.html');
+    return res.status(200).send(""+currentCommand);
 });
 
 app.post('/right', function(req, res) {
     currentCommand = 2;
-    res.sendfile(__dirname + '/index.html');
+    return res.status(200).send(""+currentCommand);
 });
 
 app.post('/back', function(req, res) {
     currentCommand = 3;
-    res.sendfile(__dirname + '/index.html');
+    return res.status(200).send(""+currentCommand);
 });
 
 
