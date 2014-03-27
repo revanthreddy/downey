@@ -6,7 +6,7 @@ var path = require('path');
 var currentCommand = 0;
 
 
-server.listen(3000);
+server.listen(80);
 //io.set( 'origins', '*niwsc.com*:*' );
 //app.use(express.logger('dev'));
 app.use(express.bodyParser());
