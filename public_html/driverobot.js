@@ -24,6 +24,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/command', function(req, res) {
+    console.log("GET");
     var command = currentCommand;
     currentCommand = 0;
     return res.status(200).send(""+command);
