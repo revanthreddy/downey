@@ -30,24 +30,23 @@ app.get('/', function(req, res) {
 
 
 
-app.get('/rotate', function(req, res) {
-    io.sockets.emit("rotate", true);
+app.post('/rotatexy', function(req, res) {
+    io.sockets.emit("rotateXY", true);
     res.send("rotated");
 });
 
-app.get('/move' , function(req,res){
-    io.sockets.emit("move", true);
-    res.send("move");
+
+app.post('/scalex' , function(req,res){
+    io.sockets.emit("scalex", true);
+    res.send("scalex");
 });
 
-app.get('/scale' , function(req,res){
-    io.sockets.emit("scale", true);
-    res.send("scale");
+
+app.post('/scalez' , function(req,res){
+    io.sockets.emit("scalez", true);
+    res.send("scalez");
 });
 
-app.get('/negativescale' , function(req,res){
-    io.sockets.emit("scale", true);
-    res.send("scale");
-});
+
 
 
