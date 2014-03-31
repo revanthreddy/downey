@@ -4,8 +4,9 @@ var server  = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var path = require('path');
 
+var command = '';
 
-server.listen(3000);
+server.listen(80);
 //io.set( 'origins', '*niwsc.com*:*' );
 //app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -25,7 +26,7 @@ io.sockets.on('connection', function(socket) {
 
 
 app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/dragcube.html');
+    res.sendfile(__dirname + '/morecubeoperations.html');
 });
 
 
@@ -47,6 +48,19 @@ app.post('/scalez' , function(req,res){
     res.send("scalez");
 });
 
+app.post('/togglerotation' , function(req,res){
+    io.sockets.emit("togglerotation", true);
+    res.send("togglerotation");
+});
 
 
+app.get('/command' , function(req,res){
+    return res.status(200).send(""+command);
+});
+
+app.put('/command', function(req,res){
+    console.log(req.query.coords);
+    command = req.query.coords;
+    return res.status(200).send("command set to "+command);
+});
 
