@@ -27,7 +27,8 @@ app.get('/command' , function(req,res){
     return res.status(200).send(""+command);
 });
 
-app.put('/command/:next', function(req,res){
-    command = req.param('next');
+app.put('/command', function(req,res){
+    console.log(req.body);
+    command = req.body;
     return res.status(200).send("command set to "+command);
 });
