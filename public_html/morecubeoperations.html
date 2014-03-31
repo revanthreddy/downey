@@ -47,7 +47,8 @@ and open the template in the editor.
                 var camera, scene, renderer, stats ,easing;
                 var cube;
                 var tweenHead , tweenBack , scaleXTween , rotateXYTween , scaleZTween;
-                var stoprotation = false;
+                var stoprotation = false;var geometry ;
+                
                     // maybe replace that by window... or something
                 var userOpts	= {
                         range		: 800,
@@ -73,6 +74,7 @@ and open the template in the editor.
 //                        }
                         var scalex = function(){
                             cube.scale.x += 0.01;
+                            geometry.verticesNeedUpdate=true;
                         }
                         var scalez = function(){
                             cube.scale.z += 0.009;
@@ -141,7 +143,7 @@ and open the template in the editor.
                         setupTween();
 //			var geometry = new THREE.CubeGeometry(2,2,1);
 //			var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-                        var geometry = new THREE.CubeGeometry( 200, 200, 200);
+                        geometry = new THREE.CubeGeometry( 200, 200, 200);
 
                         for ( var i = 0; i < geometry.faces.length; i += 2 ) {
 
@@ -155,7 +157,6 @@ and open the template in the editor.
 
                         cube = new THREE.Mesh( geometry, material );
                         cube.geometry.dynamic =true;
-                        THREE.GeometryUtils.center(geometry);
                         //cube.position.x = 0.8;
                         cube.rotation.y = 0.5;
                         cube.position.y = 150;
@@ -187,7 +188,7 @@ and open the template in the editor.
                 // ## Render the 3D Scene
                 function render() {
                     if(stoprotation === true){
-				cube.rotation.x += 0.5;
+				cube.rotation.x += 0.05;
                                 cube.rotation.y += 0.05;
                     }
                         // actually display the scene in the Dom element
