@@ -25,7 +25,7 @@ io.sockets.on('connection', function(socket) {
 
 
 app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/cubeoperations.html');
+    res.sendfile(__dirname + '/cubeinitialize.html');
 });
 
 
