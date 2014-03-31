@@ -28,7 +28,7 @@ app.get('/command' , function(req,res){
 });
 
 app.put('/command', function(req,res){
-    console.log(req.body);
-    command = req.body;
+    console.log(req.query.coords);
+    command = req.query.coords;
     return res.status(200).send("command set to "+command);
 });
