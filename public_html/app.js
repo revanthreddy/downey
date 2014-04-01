@@ -60,12 +60,12 @@ app.post('/togglerotation' , function(req,res){
 
 
 app.get('/command' , function(req,res){
-    console.log(command.length);
+    console.log("get "+command.length);
     return res.status(200).send(""+command);
 });
 
 app.put('/command', function(req,res){
-    console.log(req.query.coords.length);
+    console.log(req.query.coords+" -- "+req.query.coords.length);
     command = req.query.coords;
     return res.status(200).send("command set to "+command);
 });
