@@ -1,0 +1,233 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>cube initialize</title>
+		<style>canvas { width: 100%; height: 100% }</style>
+	</head>
+	<body>
+                <!--<button onclick="toggleRotation();">Start/Stop</button>-->
+                <script src="/socket.io/socket.io.js"></script>
+                
+		<script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+		<script src="/js/Tween.js"></script>
+                
+		<script>
+                var socket = io.connect('http://'+window.location.hostname+'/');socket.on('connect', function (){
+                              console.info('successfully established a working and authorized connection');
+                });
+                
+                socket.on('rotateXY' , function(data){
+                        rotateXYTween.start();
+//                        transformation = new THREE.Matrix4().makeRotationX(20);
+//
+//                            cube.applyMatrix(transformation);
+                });
+                
+                socket.on('togglerotation' , function(data){
+                        toggleRotation();
+                });
+                
+                socket.on('scalex' , function(data){
+                        scaleXTween.start();
+                });
+                
+                socket.on('scalez' , function(data){
+                        scaleZTween.start();
+                });
+                
+                
+                var startTime	= Date.now();
+                var container;
+                var camera, scene, renderer, stats ,easing;
+                var cube;
+                var tweenHead , tweenBack , scaleXTween , rotateXYTween , scaleZTween;
+                var stoprotation = false;var geometry ;
+                var transformation;
+                var axis ;
+                
+                    // maybe replace that by window... or something
+                var userOpts	= {
+                        range		: 800,
+                        duration	: 500,
+                        delay		: 200,
+                        easing		: 'Elastic.EaseInOut'
+                };
+                
+                // ## bootstrap functions
+                // initialiaze everything
+                init();
+                // make it move			
+                animate();
+                
+                function setupTween()
+                {
+                        
+//                        var rotate = function(){
+//                            cube.rotation.x += 0.05;
+//                        }
+//                        var move	= function(){
+//                            cube.position.x += 0.005;
+//                        }
+                        var scalex = function(){
+                            cube.scale.x += 0.01;
+                            
+                        }
+                        var scalez = function(){
+                            cube.scale.z += 0.009;
+                        }
+                        
+                        var rotatexToy = function(){
+                            cube.rotation.z -= 0.03;
+//                            transformation = new THREE.Matrix4().makeRotationX(20);
+//
+//                            cube.applyMatrix(transformation);
+                        }
+                        
+                        var current	= { x: -userOpts.range };
+
+                        // remove previous tweens if needed
+                        TWEEN.removeAll();
+
+                        // convert the string from dat-gui into tween.js functions 
+                        easing	= TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                        // build the tween to go ahead
+//                        tweenHead	= new TWEEN.Tween({x : 0})
+//                                .to({x: 1}, userOpts.duration)
+//                                .delay(userOpts.delay)
+//                                .easing(easing)
+//                                .onUpdate(move);
+//                        // build the tween to go backward
+//                        tweenBack	= new TWEEN.Tween({x : 0})
+//                                .to({x : 0.05}, userOpts.duration)
+//                                .delay(userOpts.delay)
+//                                .easing(easing)
+//                                .onUpdate(rotate);
+                        scaleXTween	= new TWEEN.Tween({x : 0})
+                                .to({x: 1}, userOpts.duration)
+                                .delay(userOpts.delay)
+                                .easing(easing)
+                                .onUpdate(scalex);
+                        scaleZTween	= new TWEEN.Tween({z : 0})
+                                .to({z: 1}, userOpts.duration)
+                                .delay(userOpts.delay)
+                                .easing(easing)
+                                .onUpdate(scalez);
+                       
+                        rotateXYTween	= new TWEEN.Tween({z : 0})
+                                .to({z: 1}, userOpts.duration)
+                                .delay(userOpts.delay)
+                                .easing(easing)
+                                .onUpdate(rotatexToy);
+                        
+                        // after tweenHead do tweenBack
+                        //tweenHead.chain(tweenBack);
+                        // after tweenBack do tweenHead, so it is cycling
+                        //tweenBack.chain(tweenHead);
+
+                        // start the first
+                        //tweenHead.start();
+                }
+                
+                
+                function init(){
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 1, 1000);
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+                         
+                        // initial setup of the tweens
+                        setupTween();
+//			var geometry = new THREE.CubeGeometry(2,2,1);
+//			var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+                        geometry = new THREE.CubeGeometry( 200, 200, 200);
+
+                        for ( var i = 0; i < geometry.faces.length; i += 2 ) {
+
+                                var hex = Math.random() * 0xffffff;
+                                geometry.faces[ i ].color.setHex( hex );
+                                geometry.faces[ i + 1 ].color.setHex( hex );
+
+                        }
+
+                        var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+
+                        cube = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial({
+                            // light
+                            specular: '#a9fcff',
+                            // intermediate
+                            color: '#00abb1',
+                            opacity: 0.2,
+                            // dark
+                            emissive: '#006063',
+                            shininess: 100 
+                          }) );
+                        cube.geometry.dynamic =true;
+                        //cube.position.x = 0.8;
+                        cube.rotation.y = 0.5;
+                        cube.position.y = 150;
+			scene.add(cube);
+                         var ambientLight = new THREE.AmbientLight(0x222222);
+                        scene.add(ambientLight);
+//                        axis = new THREE.AxisHelper(200);
+//                        scene.add(axis);
+      // directional lighting
+                    var directionalLight = new THREE.DirectionalLight(0xffffff);
+                    directionalLight.position.set(1, 1, 1).normalize();
+                    scene.add(directionalLight);
+			camera.position.y = 150;
+				camera.position.z = 500;
+//                        renderer = new THREE.CanvasRenderer();
+                        //renderer.setClearColor( 0xf0f0f0 );
+//                        renderer.setSize( window.innerWidth, window.innerHeight );
+
+//                        camera.position.y = 3;
+                }
+                        // ## Animate and Display the Scene
+                function animate() {
+                    
+                        // render the 3D scene
+                        render();
+                        // relaunch the 'timer' 
+                        requestAnimationFrame( animate );
+                        //cube.rotation.y += 0.02;
+//                        cube.rotation.x += 0.05;
+//                        cube.rotation.y += 0.005;
+                        // update the tweens from TWEEN library
+                        TWEEN.update();
+                }
+
+                        
+                // ## Render the 3D Scene
+                function render() {
+                    if(stoprotation === true){
+                                  cube.rotation.x += 0.05;
+                                cube.rotation.y += 0.05;
+                                cube.rotation.z += 0.05;
+//                    
+                                
+                    }
+                                
+                        // actually display the scene in the Dom element
+                        renderer.render( scene, camera );
+                }
+
+                function toggleRotation(){
+                    if(stoprotation === false)
+                                stoprotation = true;
+                            else
+                                stoprotation = false;
+                }
+                        
+		</script>
+                
+                
+                
+	</body>
+</html>
