@@ -60,7 +60,8 @@ app.post('/togglerotation' , function(req,res){
 
 
 app.get('/command' , function(req,res){
-    return res.status(200).send(command);
+    console.log(command.length);
+    return res.status(200).send(""+command);
 });
 
 app.put('/command', function(req,res){
