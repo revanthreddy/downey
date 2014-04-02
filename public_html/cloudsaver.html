@@ -9,9 +9,9 @@ and open the template in the editor.
 		<style>canvas { width: 100%; height: 100% }</style>
 	</head>
 	<body>
-                <!--<button onclick="toggleRotation();">Start/Stop</button>-->
+                <button onclick="saveToCloud();">Save to the cloud</button>
                 <script src="/socket.io/socket.io.js"></script>
-                
+                 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
 		<script src="/js/Tween.js"></script>
                 
@@ -65,51 +65,29 @@ and open the template in the editor.
                 
                 
                 
-                function saveGeometryToJSON(geometry) {
-                            var i,
-                                json = {
-                                    metadata: { 
-                                        formatVersion: 3
-                                    },
-                                    scale: 1.000000,
-                                    materials: [],
-                                    vertices: [],
-                                    morphTargets: [],
-                                    morphColors: [],
-                                    normals: [],
-                                    colors: [],
-                                    uvs: [[]],                  
-                                    faces: []
-                                };
-
-                            for (i = 0; i < geometry.vertices.length; i++) {
-                                json.vertices.push(geometry.vertices[i].position.x);
-                                json.vertices.push(geometry.vertices[i].position.y);
-                                json.vertices.push(geometry.vertices[i].position.z);
-                            }
-
-                            for (i = 0; i < geometry.faces.length; i++) {
-                                if (geometry.faces[i].d) {
-                                    json.faces.push(1);
-                                } else {
-                                    json.faces.push(0);                 
-                                }
-
-                                json.faces.push(geometry.faces[i].a);
-                                json.faces.push(geometry.faces[i].b);
-                                json.faces.push(geometry.faces[i].c);
-
-                                if (geometry.faces[i].d) {
-                                    json.faces.push(geometry.faces[i].d);
-                                }
-
-                                json.normals.push(geometry.faces[i].normal.x);
-                                json.normals.push(geometry.faces[i].normal.y);
-                                json.normals.push(geometry.faces[i].normal.z);
-                            }
-
-                            return JSON.stringify(json, null, '<br>');
-                        }
+                function saveToCloud() {
+                    
+                    $.ajax({
+                    url: "/cloudsave",
+                    data : JSON.stringify(cube.geometry),
+                    method : 'PUT',
+                    dataType : 'json',
+                    success : function(data){
+                        console.log(data);
+                     }
+                    });
+                 
+                    
+//                    $.ajax({
+//                    url: "/command",
+//                    method : 'GET'
+//                     
+//                  })
+//                    .done(function( data ) {
+//                
+//                        console.log(data);
+//                    });
+                }
                 
                 
                 function setupTween()

@@ -3,6 +3,9 @@ var app = express();
 var server  = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var path = require('path');
+var AWS = require('aws-sdk');
+AWS.config.update({accessKeyId:'AKIAJL7JSIXZZJMISJFQ' , secretAccessKey: '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'});
+
 
 var command = '';
 
@@ -11,7 +14,7 @@ var beacon2 = {"distance" : 10};
 var beacon3 = {"distance" : 10};
 var beacon4 = {"distance" : 10};
 
-server.listen(80);
+server.listen(3000);
 //io.set( 'origins', '*niwsc.com*:*' );
 //app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -31,7 +34,7 @@ io.sockets.on('connection', function(socket) {
 
 
 app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/cubephong.html');
+    res.sendfile(__dirname + '/bootstrap3D.html');
 });
 
 
@@ -60,12 +63,12 @@ app.post('/togglerotation' , function(req,res){
 
 
 app.get('/command' , function(req,res){
-    console.log("get "+command.length);
+    //console.log("get "+command.length);
     return res.status(200).send(""+command);
 });
 
 app.put('/command', function(req,res){
-    console.log(req.query.coords+" -- "+req.query.coords.length);
+    //console.log(req.query.coords+" -- "+req.query.coords.length);
     command = req.query.coords;
     return res.status(200).send("command set to "+command);
 });
@@ -107,3 +110,21 @@ app.put('/beacon/:id', function(req,res){
     }
     return res.status(404).send("beacon not found");
 });
+
+
+app.put('/cloudsave', function(req,res){
+    console.log("body : "+req.body);
+   var s3bucket = new AWS.S3({params: {Bucket: 'nitech2014.niwsc.com'}});
+
+    var data = {Key: 'geometry_cube.json', Body: JSON.stringify(req.body)};
+    s3bucket.putObject(data, function(err, data) {
+    if (err) {
+      console.log("Error uploading data: ", err);
+    } else {
+      console.log("Successfully uploaded data to nitech2014.niwsc.com");
+    }
+  });
+    return res.status(200).send("saved to the cloud");
+});
+
+
