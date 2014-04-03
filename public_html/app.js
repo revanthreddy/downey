@@ -76,11 +76,20 @@ app.get('/command' , function(req,res){
 app.post('/command', function(req,res){
     //console.log(req.query.coords+" -- "+req.query.coords.length);
     command = req.query.coords;
+    //var coordinates = command.split(",");
+    //io.sockets.emit("move", coordinates);
+    //console.log(coordinates[0]+" , "+coordinates[1]);
+    return res.status(200).send("command set to "+command);
+});
+
+app.put('/command', function(req,res){
+    //console.log(req.query.coords+" -- "+req.query.coords.length);
     var coordinates = command.split(",");
     io.sockets.emit("move", coordinates);
     //console.log(coordinates[0]+" , "+coordinates[1]);
     return res.status(200).send("command set to "+command);
 });
+
 
 
 
