@@ -98,7 +98,7 @@ app.post('/command', function(req,res){
 
 app.put('/command', function(req,res){
     //console.log(req.query.coords+" -- "+req.query.coords.length);
-    var coordinates = command.split(",");
+    var coordinates = req.query.coords.split(",");
     io.sockets.emit("move", coordinates);
     //console.log(coordinates[0]+" , "+coordinates[1]);
     return res.status(200).send("command set to "+command);
