@@ -112,7 +112,7 @@
                 var cube;
                 var moveX , moveY , scaleXTween , rotateXYTween , scaleZTween , scaleYTween;
                 var stoprotation = false;var geometry ;
-                var transformation;
+                var transformation , position;
                 var axis ;
                 var x=0 ; var y=0;
                     // maybe replace that by window... or something
@@ -189,16 +189,18 @@
                         }
                         
                         var current	= { x: -userOpts.range };
-
+                        position = { currX : cube.position.x , currY : cube.position.y}; //stores current cube postion
                         // remove previous tweens if needed
                         TWEEN.removeAll();
 
                         // convert the string from dat-gui into tween.js functions 
                         easing	= TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
                         // build the tween to go ahead
-                        moveX	= new TWEEN.Tween(cube.position.x)
-                                .to(5, 1000)
+                        
+                        moveX	= new TWEEN.Tween(position)
+                                .to({currX : x , currY : y}, 2000)
                                 .easing(easing)
+                                .delay(200)
                                 .onUpdate(function(){
                                     cube.position.x = x;
                                     cube.position.y = y;
