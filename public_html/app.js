@@ -3,8 +3,8 @@ var app = express();
 var server  = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var path = require('path');
-var AWS = require('aws-sdk');
-AWS.config.update({accessKeyId:'AKIAJL7JSIXZZJMISJFQ' , secretAccessKey: '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'});
+//var AWS = require('aws-sdk');
+//AWS.config.update({accessKeyId:'AKIAJL7JSIXZZJMISJFQ' , secretAccessKey: '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'});
 
 
 var command = '';
@@ -56,6 +56,12 @@ app.post('/scalez' , function(req,res){
     res.send("scalez");
 });
 
+app.post('/scaley' , function(req,res){
+    io.sockets.emit("scaley", true);
+    res.send("scaley");
+});
+
+
 app.post('/togglerotation' , function(req,res){
     io.sockets.emit("togglerotation", true);
     res.send("togglerotation");
@@ -67,9 +73,12 @@ app.get('/command' , function(req,res){
     return res.status(200).send(""+command);
 });
 
-app.put('/command', function(req,res){
+app.post('/command', function(req,res){
     //console.log(req.query.coords+" -- "+req.query.coords.length);
     command = req.query.coords;
+    var coordinates = command.split(",");
+    io.sockets.emit("move", coordinates);
+    //console.log(coordinates[0]+" , "+coordinates[1]);
     return res.status(200).send("command set to "+command);
 });
 
@@ -126,5 +135,8 @@ app.put('/cloudsave', function(req,res){
   });
     return res.status(200).send("saved to the cloud");
 });
+
+
+
 
 
