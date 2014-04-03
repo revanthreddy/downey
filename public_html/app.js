@@ -3,8 +3,6 @@ var app = express();
 var server  = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var path = require('path');
-//var AWS = require('aws-sdk');
-//AWS.config.update({accessKeyId:'AKIAJL7JSIXZZJMISJFQ' , secretAccessKey: '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'});
 
 
 var command = '';
@@ -130,20 +128,20 @@ app.put('/beacon/:id', function(req,res){
 });
 
 
-app.put('/cloudsave', function(req,res){
-    console.log("body : "+req.body);
-   var s3bucket = new AWS.S3({params: {Bucket: 'nitech2014.niwsc.com'}});
-
-    var data = {Key: 'geometry_cube.json', Body: JSON.stringify(req.body)};
-    s3bucket.putObject(data, function(err, data) {
-    if (err) {
-      console.log("Error uploading data: ", err);
-    } else {
-      console.log("Successfully uploaded data to nitech2014.niwsc.com");
-    }
-  });
-    return res.status(200).send("saved to the cloud");
-});
+//app.put('/cloudsave', function(req,res){
+//    console.log("body : "+req.body);
+//   var s3bucket = new AWS.S3({params: {Bucket: 'nitech2014.niwsc.com'}});
+//
+//    var data = {Key: 'geometry_cube.json', Body: JSON.stringify(req.body)};
+//    s3bucket.putObject(data, function(err, data) {
+//    if (err) {
+//      console.log("Error uploading data: ", err);
+//    } else {
+//      console.log("Successfully uploaded data to nitech2014.niwsc.com");
+//    }
+//  });
+//    return res.status(200).send("saved to the cloud");
+//});
 
 
 
