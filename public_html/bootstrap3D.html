@@ -101,6 +101,15 @@
                         scaleZTween.start();
                 });
                 
+                socket.on('scalein' , function(data){
+                        console.log('scaling in Y');
+                        scaleInTween.start();
+                });
+                socket.on('scaleout' , function(data){
+                        console.log('scaling in Y');
+                        scalOutTween.start();
+                });
+                
                 socket.on('move' , function(data){
                         console.log(data[0]);
                         x = data[0];
@@ -115,6 +124,7 @@
                 var camera, scene, renderer, stats ,easing;
                 var cube;
                 var moveX , moveY , scaleXTween , rotateXYTween ,antirotateXYTween, scaleZTween , scaleYTween;
+                var scaleOutTween , scaleInTween;
                 var stoprotation = false;var geometry ;
                 var transformation , position;
                 var axis ;
@@ -236,7 +246,24 @@
                                 .delay(userOpts.delay)
                                 .easing(easing)
                                 .onUpdate(scaley);
-                        
+                        scaleOutTween	= new TWEEN.Tween({z : 0})
+                                .to({z: 1}, userOpts.duration)
+                                .delay(userOpts.delay)
+                                .easing(easing)
+                                .onUpdate(function(){
+                                    cube.scale.x += 0.009;
+                                    cube.scale.y += 0.009;
+                                    cube.scale.z += 0.009;
+                                });
+                        scaleInTween	= new TWEEN.Tween({z : 0})
+                                .to({z: 1}, userOpts.duration)
+                                .delay(userOpts.delay)
+                                .easing(easing)
+                                .onUpdate(function(){
+                                    cube.scale.z -= 0.009;
+                                    cube.scale.z -= 0.009;
+                                    cube.scale.z -= 0.009;
+                                });
                        
                         rotateXYTween	= new TWEEN.Tween({z : 0})
                                 .to({z: 1}, userOpts.duration)

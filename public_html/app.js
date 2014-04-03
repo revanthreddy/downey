@@ -64,6 +64,17 @@ app.post('/scaley' , function(req,res){
     res.send("scaley");
 });
 
+app.post('/scaleout' , function(req,res){
+    io.sockets.emit("scaleout", true);
+    res.send("scale out");
+});
+
+app.post('/scalein' , function(req,res){
+    io.sockets.emit("scalein", true);
+    res.send("scale in");
+});
+
+
 
 app.post('/togglerotation' , function(req,res){
     io.sockets.emit("togglerotation", true);
