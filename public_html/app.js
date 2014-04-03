@@ -39,7 +39,12 @@ app.get('/', function(req, res) {
 
 app.post('/rotatexy', function(req, res) {
     io.sockets.emit("rotateXY", true);
-    res.send("rotated");
+    res.send("clockwise rotate");
+});
+
+app.post('antirotatexy', function(req,res){
+    io.sockets.emit("antirotateXY", true);
+    res.send("anti clock wise rotate");
 });
 
 

@@ -76,7 +76,11 @@
                 socket.on('rotateXY' , function(data){
                         console.log('rotating ..');
                         rotateXYTween.start();
-
+                });
+                
+                socket.on('antirotateXY' , function(data){
+                        console.log('rotating anticlockwise..');
+                        rotateXYTween.start();
                 });
                 
                 socket.on('togglerotation' , function(data){
@@ -110,7 +114,7 @@
                 var container;
                 var camera, scene, renderer, stats ,easing;
                 var cube;
-                var moveX , moveY , scaleXTween , rotateXYTween , scaleZTween , scaleYTween;
+                var moveX , moveY , scaleXTween , rotateXYTween ,antirotateXYTween, scaleZTween , scaleYTween;
                 var stoprotation = false;var geometry ;
                 var transformation , position;
                 var axis ;
@@ -187,6 +191,12 @@
 //
 //                            cube.applyMatrix(transformation);
                         }
+                        var antirotatexToy = function(){
+                            cube.rotation.z += 0.03;
+//                            transformation = new THREE.Matrix4().makeRotationX(20);
+//
+//                            cube.applyMatrix(transformation);
+                        }
                         
                         var current	= { x: -userOpts.range };
                         position = { currX : cube.position.x , currY : cube.position.y}; //stores current cube postion
@@ -233,6 +243,12 @@
                                 .delay(userOpts.delay)
                                 .easing(easing)
                                 .onUpdate(rotatexToy);
+                       
+                        antirotateXYTween	= new TWEEN.Tween({z : 0})
+                                .to({z: 1}, userOpts.duration)
+                                .delay(userOpts.delay)
+                                .easing(easing)
+                                .onUpdate(antirotatexToy);
                         
                         // after tweenHead do tweenBack
                         //tweenHead.chain(tweenBack);
