@@ -260,9 +260,11 @@
                                 .delay(userOpts.delay)
                                 .easing(easing)
                                 .onUpdate(function(){
+                                    if((cube.scale.x - 0.009) > 0 && (cube.scale.x - 0.009) > 0 && (cube.scale.x - 0.009) > 0){
+                                    cube.scale.x -= 0.009;
+                                    cube.scale.y -= 0.009;
                                     cube.scale.z -= 0.009;
-                                    cube.scale.z -= 0.009;
-                                    cube.scale.z -= 0.009;
+                                    }
                                 });
                        
                         rotateXYTween	= new TWEEN.Tween({z : 0})
